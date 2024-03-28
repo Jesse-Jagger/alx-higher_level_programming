@@ -2,20 +2,17 @@
 
 """ Finds the peak in a list of unsorted integers"""
 
-
 def find_peak(list_of_integers):
 
-    if not list_of_integers:
-        return None
+    """finds a peak in a list of unsorted integers"""
 
-    less, more = 0, len(list_of_integers) - 1
-
-    while less < more:
-        moderate = (less + more) // 2
-
-        if list_of_integers[moderate] > list_of_integers[moderate + 1]:
-            more = moderate
-        else:
-            less = moderate + 1
-
-    return list_of_integers[less]
+    li_st = list_of_integers
+    ln = len(li_st)
+    if ln == 0:
+        return
+    i = ln // 2
+    if (i == ln - 1 or li_st[i] >= li_st[i + 1]) and (i == 0 or li_st[i] >= li_st[i - 1]):
+        return li_st[i]
+    if i != ln - 1 and li_st[i + 1] > li_st[i]:
+        return find_peak(li_st[i + 1:])
+    return find_peak(li_st[:i])
