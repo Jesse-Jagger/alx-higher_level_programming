@@ -1,8 +1,23 @@
 #!/usr/bin/node
-const myLines = ['C is fun', 'Python is cool', 'JavaScript is amazing'];
-const arrayLength = myLines.length;
-let j = 0;
-while (j < arrayLength) {
-  console.log(myLines[j]);
-  j++;
-}
+// for a web scrapper //
+
+const request = require('request');
+
+request.get(process.argv[2], { json: true }, (error, response, body) => {
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const tasksCompleted = {};
+  body.forEach((todo) => {
+    if (todo.completed) {
+      if (!tasksCompleted[todo.userId]) {
+        tasksCompleted[todo.userId] = 1;
+      } else {
+        tasksCompleted[todo.userId] += 1;
+      }
+    }
+  });
+  console.log(tasksCompleted);
+});
